@@ -1,7 +1,7 @@
-function [sym_golden, padded_sig_long] = multi_frame_generation(iter_time, ...
+function [sym_golden, sig_100] = multi_frame_generation(iter_time, ...
     num_symbol, L_sig_5_head, N_OFDM)
-    sym_golden  = zeros(48*num_symbol, iter_time); 
-    sig_100 = zeros(L_sig_100, iter_time);
+    sym_golden = zeros(48*num_symbol, iter_time); 
+    sig_100    = zeros(L_sig_100, iter_time);
     for j = 1 : iter_time
     sig_100(1:length(STS), j) = STS;
     sig_100(length(STS)+1:length(STS)+length(LTS), j)= LTS;
@@ -14,8 +14,7 @@ function [sym_golden, padded_sig_long] = multi_frame_generation(iter_time, ...
             sig_100(L_sig_5_head + ii*(N_OFDM)+1 : ...
                     L_sig_5_head + (ii+1)*(N_OFDM), j) = x_cp;
         end
-    sig_100(L_sig_5_head+1:end, j) = sig_100(L_sig_5_head+1:end, j) ...
-                           /mean(abs(sig_100(L_sig_5_head+1:end, j)));
+    % sig_100(L_sig_5_head+1:end, j) = sig_100(L_sig_5_head+1:end, j) ...
+    %                        /mean(abs(sig_100(L_sig_5_head+1:end, j)));
     end
-    padded_sig_long = send_amp * [zeros(100, iter_time); sig_100; zeros(100, iter_time)];
 end
